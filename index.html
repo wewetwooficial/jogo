@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
     <title>W2 Quiz & Games</title>
 
     <style>
@@ -24,9 +25,11 @@
             font-family: 'Segoe UI', system-ui, sans-serif;
             background-color: var(--bg);
             color: var(--text);
+
             display: flex;
             flex-direction: column;
             align-items: center;
+
             min-height: 100vh;
             padding: 20px;
         }
@@ -49,19 +52,26 @@
             margin-top: 5px;
         }
 
-        /* Container do jogo */
+        /* GAME */
+
         #game-wrapper {
             position: relative;
+
             width: 100%;
             max-width: 400px;
+
             aspect-ratio: 1 / 1;
+
             background: #000;
+
             border: 3px solid var(--card);
             border-radius: 15px;
+
+            overflow: hidden;
+
             box-shadow:
                 0 10px 30px rgba(0,0,0,0.5),
                 0 0 15px rgba(34, 211, 238, 0.2);
-            overflow: hidden;
         }
 
         canvas {
@@ -70,36 +80,54 @@
             display: block;
         }
 
-        /* Score */
+        /* SCORE */
+
         #score-board {
             position: absolute;
+
             top: 10px;
             left: 10px;
+
             background: rgba(0,0,0,0.6);
+
             padding: 5px 15px;
+
             border-radius: 20px;
+
             color: var(--primary);
+
             font-weight: bold;
             font-family: monospace;
+
             z-index: 10;
         }
 
-        /* Botão Pause */
+        /* PLAY / PAUSE */
+
         #game-controls {
             position: absolute;
+
             top: 10px;
             right: 10px;
+
             z-index: 10;
         }
 
         #pauseBtn {
             background: rgba(0,0,0,0.6);
+
             color: var(--primary);
+
             border: 1px solid #334155;
+
             padding: 8px 14px;
+
             border-radius: 20px;
+
             cursor: pointer;
+
             font-weight: bold;
+
             transition: 0.2s;
         }
 
@@ -111,34 +139,48 @@
             transform: scale(0.95);
         }
 
-        /* Controles Mobile */
+        /* CONTROLES MOBILE */
+
         .controls {
             display: grid;
+
             grid-template-areas:
                 ". up ."
                 "left down right";
+
             gap: 10px;
+
             margin-top: 20px;
         }
 
         .btn {
             width: 60px;
             height: 60px;
+
             background: var(--card);
+
             border: 1px solid #334155;
+
             border-radius: 12px;
+
             color: white;
+
             font-size: 1.5rem;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             cursor: pointer;
+
             user-select: none;
         }
 
         .btn:active {
             background: var(--primary);
+
             color: var(--bg);
+
             transform: scale(0.95);
         }
 
@@ -149,19 +191,26 @@
 
         footer {
             margin-top: auto;
+
             padding: 30px;
+
             font-size: 0.8rem;
+
             color: #475569;
+
             text-align: center;
         }
 
         footer a {
             color: var(--primary);
+
             text-decoration: none;
+
             margin: 0 10px;
         }
 
         @media (min-width: 1024px) {
+
             .controls {
                 display: none;
             }
@@ -177,7 +226,11 @@
 
     <header>
         <h1>W2 Quiz & Games</h1>
-        <p>Desafio da Cobrinha: Aqueça para o Quiz!</p>
+
+        <p>
+            Desafio da Cobrinha:
+            Aqueça para o Quiz!
+        </p>
     </header>
 
     <div id="game-wrapper">
@@ -187,43 +240,91 @@
         </div>
 
         <div id="game-controls">
-            <button id="pauseBtn">⏸ Pause</button>
+            <button id="pauseBtn">
+                ▶ Play
+            </button>
         </div>
 
-        <canvas id="snakeGame" width="400" height="400"></canvas>
+        <canvas
+            id="snakeGame"
+            width="400"
+            height="400">
+        </canvas>
+
     </div>
 
-    <!-- Controles Mobile -->
+    <!-- CONTROLES MOBILE -->
+
     <div class="controls">
-        <div class="btn up" onclick="setDir('UP')">▲</div>
-        <div class="btn left" onclick="setDir('LEFT')">◀</div>
-        <div class="btn down" onclick="setDir('DOWN')">▼</div>
-        <div class="btn right" onclick="setDir('RIGHT')">▶</div>
+
+        <div
+            class="btn up"
+            onclick="setDir('UP')">
+            ▲
+        </div>
+
+        <div
+            class="btn left"
+            onclick="setDir('LEFT')">
+            ◀
+        </div>
+
+        <div
+            class="btn down"
+            onclick="setDir('DOWN')">
+            ▼
+        </div>
+
+        <div
+            class="btn right"
+            onclick="setDir('RIGHT')">
+            ▶
+        </div>
+
     </div>
 
     <footer>
         <p>
             &copy; 2026 W2 Oficial.
-            <a href="#">Terms of Service</a> |
-            <a href="#">Privacy Policy</a>
+
+            <a href="#">
+                Terms of Service
+            </a>
+
+            |
+
+            <a href="#">
+                Privacy Policy
+            </a>
         </p>
     </footer>
 
     <script>
-        const canvas = document.getElementById("snakeGame");
-        const ctx = canvas.getContext("2d");
-        const scoreBoard = document.getElementById("score-board");
-        const pauseBtn = document.getElementById("pauseBtn");
+
+        const canvas =
+            document.getElementById("snakeGame");
+
+        const ctx =
+            canvas.getContext("2d");
+
+        const scoreBoard =
+            document.getElementById("score-board");
+
+        const pauseBtn =
+            document.getElementById("pauseBtn");
 
         const box = 20;
 
         let score = 0;
 
-        /* Mais lento no início */
+        /* MAIS LENTO NO INÍCIO */
         let gameSpeed = 180;
 
         let snake = [
-            { x: 9 * box, y: 10 * box }
+            {
+                x: 9 * box,
+                y: 10 * box
+            }
         ];
 
         let food = spawnFood();
@@ -231,69 +332,138 @@
         let d = "RIGHT";
 
         let game = null;
-        let isPaused = false;
 
-        /* Controles Teclado */
-        document.addEventListener("keydown", (e) => {
+        let isPaused = true;
 
-            if ((e.key == "ArrowLeft" || e.key == "a") && d != "RIGHT")
-                d = "LEFT";
+        /* =========================
+           TECLADO
+        ========================= */
 
-            else if ((e.key == "ArrowUp" || e.key == "w") && d != "DOWN")
-                d = "UP";
+        document.addEventListener(
+            "keydown",
+            (e) => {
 
-            else if ((e.key == "ArrowRight" || e.key == "d") && d != "LEFT")
-                d = "RIGHT";
+                if (
+                    (e.key == "ArrowLeft" || e.key == "a")
+                    && d != "RIGHT"
+                ) {
+                    d = "LEFT";
+                }
 
-            else if ((e.key == "ArrowDown" || e.key == "s") && d != "UP")
-                d = "DOWN";
-        });
+                else if (
+                    (e.key == "ArrowUp" || e.key == "w")
+                    && d != "DOWN"
+                ) {
+                    d = "UP";
+                }
 
-        /* Controles Mobile */
+                else if (
+                    (e.key == "ArrowRight" || e.key == "d")
+                    && d != "LEFT"
+                ) {
+                    d = "RIGHT";
+                }
+
+                else if (
+                    (e.key == "ArrowDown" || e.key == "s")
+                    && d != "UP"
+                ) {
+                    d = "DOWN";
+                }
+            }
+        );
+
+        /* =========================
+           MOBILE
+        ========================= */
+
         function setDir(dir) {
 
-            if (dir == "LEFT" && d != "RIGHT")
+            if (
+                dir == "LEFT"
+                && d != "RIGHT"
+            ) {
                 d = "LEFT";
+            }
 
-            if (dir == "UP" && d != "DOWN")
+            if (
+                dir == "UP"
+                && d != "DOWN"
+            ) {
                 d = "UP";
+            }
 
-            if (dir == "RIGHT" && d != "LEFT")
+            if (
+                dir == "RIGHT"
+                && d != "LEFT"
+            ) {
                 d = "RIGHT";
+            }
 
-            if (dir == "DOWN" && d != "UP")
+            if (
+                dir == "DOWN"
+                && d != "UP"
+            ) {
                 d = "DOWN";
+            }
         }
+
+        /* =========================
+           COMIDA
+        ========================= */
 
         function spawnFood() {
+
             return {
-                x: Math.floor(Math.random() * 19 + 0.5) * box,
-                y: Math.floor(Math.random() * 19 + 0.5) * box
+
+                x:
+                    Math.floor(
+                        Math.random() * 19 + 0.5
+                    ) * box,
+
+                y:
+                    Math.floor(
+                        Math.random() * 19 + 0.5
+                    ) * box
             };
         }
+
+        /* =========================
+           DESENHO
+        ========================= */
 
         function draw() {
 
             ctx.fillStyle = "black";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            /* Desenha cobra */
-            snake.forEach((part, index) => {
+            ctx.fillRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
 
-                ctx.fillStyle =
-                    (index === 0)
-                    ? "#22d3ee"
-                    : "#164e63";
+            /* COBRA */
 
-                ctx.fillRect(
-                    part.x,
-                    part.y,
-                    box - 1,
-                    box - 1
-                );
-            });
+            snake.forEach(
+                (part, index) => {
 
-            /* Desenha comida */
+                    ctx.fillStyle =
+                        (index === 0)
+                        ? "#22d3ee"
+                        : "#164e63";
+
+                    ctx.fillRect(
+                        part.x,
+                        part.y,
+                        box - 1,
+                        box - 1
+                    );
+                }
+            );
+
+            /* COMIDA */
+
             ctx.fillStyle = "#ef4444";
 
             ctx.beginPath();
@@ -309,30 +479,48 @@
             ctx.fill();
 
             let snakeX = snake[0].x;
+
             let snakeY = snake[0].y;
 
-            if (d == "LEFT") snakeX -= box;
-            if (d == "UP") snakeY -= box;
-            if (d == "RIGHT") snakeX += box;
-            if (d == "DOWN") snakeY += box;
+            if (d == "LEFT")
+                snakeX -= box;
 
-            /* Comeu comida */
-            if (snakeX == food.x && snakeY == food.y) {
+            if (d == "UP")
+                snakeY -= box;
+
+            if (d == "RIGHT")
+                snakeX += box;
+
+            if (d == "DOWN")
+                snakeY += box;
+
+            /* COME COMIDA */
+
+            if (
+                snakeX == food.x
+                &&
+                snakeY == food.y
+            ) {
 
                 score++;
 
-                scoreBoard.innerText = "Score: " + score;
+                scoreBoard.innerText =
+                    "Score: " + score;
 
                 food = spawnFood();
 
-                /* Aumenta velocidade aos poucos */
+                /* AUMENTA VELOCIDADE */
+
                 if (gameSpeed > 70) {
 
                     gameSpeed -= 5;
 
                     clearInterval(game);
 
-                    game = setInterval(draw, gameSpeed);
+                    game = setInterval(
+                        draw,
+                        gameSpeed
+                    );
                 }
 
             } else {
@@ -341,22 +529,37 @@
             }
 
             let newHead = {
+
                 x: snakeX,
+
                 y: snakeY
             };
 
-            /* Game Over */
+            /* GAME OVER */
+
             if (
+
                 snakeX < 0 ||
+
                 snakeX >= canvas.width ||
+
                 snakeY < 0 ||
+
                 snakeY >= canvas.height ||
-                collision(newHead, snake)
+
+                collision(
+                    newHead,
+                    snake
+                )
+
             ) {
 
                 clearInterval(game);
 
-                alert("Game Over! Score: " + score);
+                alert(
+                    "Game Over! Score: "
+                    + score
+                );
 
                 location.reload();
             }
@@ -364,18 +567,36 @@
             snake.unshift(newHead);
         }
 
-        function collision(head, array) {
+        /* =========================
+           COLISÃO
+        ========================= */
+
+        function collision(
+            head,
+            array
+        ) {
 
             return array.some(
                 part =>
-                    head.x === part.x &&
+
+                    head.x === part.x
+                    &&
                     head.y === part.y
             );
         }
 
+        /* =========================
+           PLAY / PAUSE
+        ========================= */
+
         function startGame() {
 
-            game = setInterval(draw, gameSpeed);
+            clearInterval(game);
+
+            game = setInterval(
+                draw,
+                gameSpeed
+            );
         }
 
         function pauseGame() {
@@ -383,31 +604,36 @@
             clearInterval(game);
         }
 
-        /* Botão Pause / Play */
-        pauseBtn.addEventListener("click", () => {
+        /* GARANTE PAUSADO */
 
-            if (isPaused) {
+        pauseGame();
 
-                startGame();
+        /* BOTÃO */
 
-                pauseBtn.innerText = "⏸ Pause";
+        pauseBtn.addEventListener(
+            "click",
+            () => {
 
-                isPaused = false;
+                if (isPaused) {
 
-            } else {
+                    startGame();
 
-                pauseGame();
+                    pauseBtn.innerText =
+                        "⏸ Pause";
 
-                pauseBtn.innerText = "▶ Play";
+                    isPaused = false;
 
-                isPaused = true;
+                } else {
+
+                    pauseGame();
+
+                    pauseBtn.innerText =
+                        "▶ Play";
+
+                    isPaused = true;
+                }
             }
-        });
-
-        /* Inicia pausado */
-        isPaused = true;
-        
-        pauseBtn.innerText = "▶ Play";
+        );
 
     </script>
 
