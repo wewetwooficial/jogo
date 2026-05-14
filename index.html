@@ -34,10 +34,9 @@
         header { text-align: center; margin-bottom: 20px; width: 100%; }
 
         .app-brand { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 20px; }
-        .app-logo { width: 250px; height: 250px; border-radius: 12px; border: 2px solid var(--primary); }
+        .app-logo { width: 150px; height: 150px; border-radius: 12px; border: 2px solid var(--primary); object-fit: cover; }
         h1 { color: var(--primary); font-size: clamp(1.5rem, 5vw, 2.5rem); }
 
-        /* Estilo do Botão TikTok */
         .tiktok-btn {
             background-color: #000;
             color: #fff;
@@ -50,12 +49,8 @@
             align-items: center;
             gap: 12px;
             font-size: 1rem;
-            transition: transform 0.2s;
         }
-        .tiktok-btn:active { transform: scale(0.98); }
-        .tiktok-icon { width: 20px; height: 20px; }
 
-        /* Esconde o jogo inicialmente */
         #main-content { display: none; width: 100%; max-width: 400px; flex-direction: column; align-items: center; }
 
         #game-wrapper {
@@ -69,10 +64,36 @@
         }
 
         canvas { width: 100%; height: 100%; display: block; }
-        #score-board { position: absolute; top: 10px; left: 10px; color: var(--primary); font-weight: bold; z-index: 10; }
-        
+        #score-board { position: absolute; top: 10px; left: 10px; color: var(--primary); font-weight: bold; z-index: 5; }
+
+        /* Botão Play no Meio da Tela */
+        #overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+
+        #start-btn {
+            background: var(--primary);
+            color: var(--bg);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
         .controls { display: grid; grid-template-areas: ". up ." "left down right"; gap: 10px; margin-top: 20px; }
-        .btn { width: 60px; height: 60px; background: var(--card); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; }
+        .btn { width: 70px; height: 70px; background: var(--card); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; cursor: pointer; color: white; border: 1px solid #334155; }
+        .btn:active { background: var(--primary); color: var(--bg); }
+
+        .up { grid-area: up; } .down { grid-area: down; } .left { grid-area: left; } .right { grid-area: right; }
 
         footer { margin-top: auto; padding: 20px; font-size: 0.8rem; color: #475569; text-align: center; }
         footer a { color: var(--primary); text-decoration: none; margin: 0 10px; }
@@ -85,20 +106,19 @@
             <img src="logo.jpg" alt="W2 Logo" class="app-logo">
             <h1>W2 Quiz & Games</h1>
         </div>
-        
         <button class="tiktok-btn" id="fakeLogin">
-            <!-- SVG Oficial do TikTok -->
-            <svg class="tiktok-icon" viewBox="0 0 448 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/>
-            </svg>
+            <svg style="width:20px" viewBox="0 0 448 512" fill="currentColor"><path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/></svg>
             Continue with TikTok
         </button>
-        <p style="margin-top: 15px;">Faça login para jogar e salvar seu recorde!</p>
+        <p style="margin-top: 15px;">Faça login para jogar!</p>
     </header>
 
     <main id="main-content">
         <div id="game-wrapper">
             <div id="score-board">Score: 0</div>
+            <div id="overlay">
+                <button id="start-btn">JOGAR</button>
+            </div>
             <canvas id="snakeGame" width="400" height="400"></canvas>
         </div>
 
@@ -111,51 +131,72 @@
     </main>
 
     <footer>
-        <p>
-            &copy; 2026 W2 Oficial.
-            <a href="https://wewetwooficial.github.io/Quiz-Terms-of-Service/">Terms of Service</a> |
-            <a href="https://wewetwooficial.github.io/Privacy-Policy">Privacy Policy</a>
-        </p>
+        <p>&copy; 2026 W2 Oficial. <a href="#">Terms</a> | <a href="#">Privacy</a></p>
     </footer>
 
     <script>
         const loginHeader = document.getElementById('login-header');
         const mainContent = document.getElementById('main-content');
-        const loginBtn = document.getElementById('fakeLogin');
-
-        // Simulação de login para a revisão
-        loginBtn.addEventListener('click', () => {
-            loginHeader.style.display = 'none';
-            mainContent.style.display = 'flex';
-            startGame(); // Inicia o loop do jogo
-        });
-
-        // Lógica do Jogo
+        const overlay = document.getElementById('overlay');
+        const startBtn = document.getElementById('start-btn');
         const canvas = document.getElementById("snakeGame");
         const ctx = canvas.getContext("2d");
+
         const box = 20;
         let score = 0;
-        let gameSpeed = 180;
         let snake = [{ x: 9 * box, y: 10 * box }];
         let food = { x: 5 * box, y: 5 * box };
         let d = "RIGHT";
-        let game = null;
+        let gameActive = false;
+        let gameLoop = null;
+
+        // Login Fake
+        document.getElementById('fakeLogin').addEventListener('click', () => {
+            loginHeader.style.display = 'none';
+            mainContent.style.display = 'flex';
+            drawStatic(); // Desenha o estado inicial parado
+        });
+
+        // Botão Play no meio
+        startBtn.addEventListener('click', () => {
+            overlay.style.display = 'none';
+            if(!gameActive) {
+                gameActive = true;
+                gameLoop = setInterval(draw, 150);
+            }
+        });
 
         function setDir(dir) {
             if (dir == "LEFT" && d != "RIGHT") d = "LEFT";
-            if (dir == "UP" && d != "DOWN") d = "UP";
-            if (dir == "RIGHT" && d != "LEFT") d = "RIGHT";
-            if (dir == "DOWN" && d != "UP") d = "DOWN";
+            else if (dir == "UP" && d != "DOWN") d = "UP";
+            else if (dir == "RIGHT" && d != "LEFT") d = "RIGHT";
+            else if (dir == "DOWN" && d != "UP") d = "DOWN";
+        }
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key == "ArrowLeft" && d != "RIGHT") d = "LEFT";
+            if (e.key == "ArrowUp" && d != "DOWN") d = "UP";
+            if (e.key == "ArrowRight" && d != "LEFT") d = "RIGHT";
+            if (e.key == "ArrowDown" && d != "UP") d = "DOWN";
+        });
+
+        function drawStatic() {
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#22d3ee";
+            ctx.fillRect(snake[0].x, snake[0].y, box - 1, box - 1);
+            ctx.fillStyle = "#ef4444";
+            ctx.fillRect(food.x, food.y, box - 1, box - 1);
         }
 
         function draw() {
             ctx.fillStyle = "black";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            snake.forEach((part, index) => {
-                ctx.fillStyle = (index === 0) ? "#22d3ee" : "#164e63";
-                ctx.fillRect(part.x, part.y, box - 1, box - 1);
-            });
+            for(let i = 0; i < snake.length; i++) {
+                ctx.fillStyle = (i === 0) ? "#22d3ee" : "#164e63";
+                ctx.fillRect(snake[i].x, snake[i].y, box - 1, box - 1);
+            }
 
             ctx.fillStyle = "#ef4444";
             ctx.fillRect(food.x, food.y, box - 1, box - 1);
@@ -182,28 +223,19 @@
             let newHead = { x: snakeX, y: snakeY };
 
             if (snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) {
-                clearInterval(game);
-                alert("Game Over! Score: " + score);
+                clearInterval(gameLoop);
+                alert("Fim de jogo! Score: " + score);
                 location.reload();
             }
-
             snake.unshift(newHead);
         }
 
         function collision(head, array) {
-            return array.some(part => head.x === part.x && head.y === part.y);
+            for(let i = 0; i < array.length; i++) {
+                if(head.x == array[i].x && head.y == array[i].y) return true;
+            }
+            return false;
         }
-
-        function startGame() {
-            game = setInterval(draw, gameSpeed);
-        }
-
-        document.addEventListener("keydown", (e) => {
-            if ((e.key == "ArrowLeft" || e.key == "a") && d != "RIGHT") d = "LEFT";
-            if ((e.key == "ArrowUp" || e.key == "w") && d != "DOWN") d = "UP";
-            if ((e.key == "ArrowRight" || e.key == "d") && d != "LEFT") d = "RIGHT";
-            if ((e.key == "ArrowDown" || e.key == "s") && d != "UP") d = "DOWN";
-        });
     </script>
 </body>
 </html>
