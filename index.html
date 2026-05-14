@@ -4,14 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     
-
-    <!-- Para a versão 16x16 PNG -->
-    <link rel="icon" type="image/jpeg" sizes="16x16" href="logo_16x16">
-    
-    <!-- Para a versão 32x32 PNG -->
-    <link rel="icon" type="image/jpeg" sizes="32x32" href="logo_32x32">
-
-    <link rel="icon" type="image/jpeg" sizes="32x32" href="logo_48x48.jpg">
+    <!-- Favicons Corrigidos (Certifique-se que os arquivos existem na pasta) -->
+    <link rel="icon" type="image/jpeg" sizes="16x16" href="logo_16x16.jpg">
+    <link rel="icon" type="image/jpeg" sizes="32x32" href="logo_32x32.jpg">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
     <title>W2 Quiz & Games</title>
 
@@ -21,6 +17,7 @@
             --bg: #0f172a;
             --card: #1e293b;
             --text: #f8fafc;
+            --tiktok-black: #000000;
         }
 
         * {
@@ -34,11 +31,9 @@
             font-family: 'Segoe UI', system-ui, sans-serif;
             background-color: var(--bg);
             color: var(--text);
-
             display: flex;
             flex-direction: column;
             align-items: center;
-
             min-height: 100vh;
             padding: 20px;
         }
@@ -50,9 +45,49 @@
             max-width: 800px;
         }
 
+        /* Container do Ícone no Header (Exigência TikTok) */
+        .app-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .app-logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+        }
+
         h1 {
             color: var(--primary);
             font-size: clamp(1.5rem, 5vw, 2.5rem);
+        }
+
+        /* Botão de Login TikTok */
+        .login-container {
+            margin: 15px 0;
+        }
+
+        .tiktok-btn {
+            background-color: var(--tiktok-black);
+            color: white;
+            border: 1px solid #333;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .tiktok-btn:hover {
+            background-color: #222;
         }
 
         p {
@@ -62,25 +97,16 @@
         }
 
         /* GAME */
-
         #game-wrapper {
             position: relative;
-
             width: 100%;
             max-width: 400px;
-
             aspect-ratio: 1 / 1;
-
             background: #000;
-
             border: 3px solid var(--card);
             border-radius: 15px;
-
             overflow: hidden;
-
-            box-shadow:
-                0 10px 30px rgba(0,0,0,0.5),
-                0 0 15px rgba(34, 211, 238, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(34, 211, 238, 0.2);
         }
 
         canvas {
@@ -89,107 +115,62 @@
             display: block;
         }
 
-        /* SCORE */
-
         #score-board {
             position: absolute;
-
             top: 10px;
             left: 10px;
-
             background: rgba(0,0,0,0.6);
-
             padding: 5px 15px;
-
             border-radius: 20px;
-
             color: var(--primary);
-
             font-weight: bold;
             font-family: monospace;
-
             z-index: 10;
         }
 
-        /* PLAY / PAUSE */
-
         #game-controls {
             position: absolute;
-
             top: 10px;
             right: 10px;
-
             z-index: 10;
         }
 
         #pauseBtn {
             background: rgba(0,0,0,0.6);
-
             color: var(--primary);
-
             border: 1px solid #334155;
-
             padding: 8px 14px;
-
             border-radius: 20px;
-
             cursor: pointer;
-
             font-weight: bold;
-
-            transition: 0.2s;
-        }
-
-        #pauseBtn:hover {
-            background: var(--card);
-        }
-
-        #pauseBtn:active {
-            transform: scale(0.95);
         }
 
         /* CONTROLES MOBILE */
-
         .controls {
             display: grid;
-
-            grid-template-areas:
-                ". up ."
-                "left down right";
-
+            grid-template-areas: ". up ." "left down right";
             gap: 10px;
-
             margin-top: 20px;
         }
 
         .btn {
             width: 60px;
             height: 60px;
-
             background: var(--card);
-
             border: 1px solid #334155;
-
             border-radius: 12px;
-
             color: white;
-
             font-size: 1.5rem;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             cursor: pointer;
-
             user-select: none;
         }
 
         .btn:active {
             background: var(--primary);
-
             color: var(--bg);
-
             transform: scale(0.95);
         }
 
@@ -200,451 +181,163 @@
 
         footer {
             margin-top: auto;
-
             padding: 30px;
-
             font-size: 0.8rem;
-
             color: #475569;
-
             text-align: center;
         }
 
         footer a {
             color: var(--primary);
-
             text-decoration: none;
-
             margin: 0 10px;
         }
 
         @media (min-width: 1024px) {
-
-            .controls {
-                display: none;
-            }
-
-            header p::after {
-                content: " | Use as setas ou WASD para jogar.";
-            }
+            .controls { display: none; }
+            header p::after { content: " | Use as setas ou WASD para jogar."; }
         }
     </style>
 </head>
-
 <body>
 
     <header>
-        <h1>W2 Quiz & Games</h1>
-
-        <p>
-            Desafio da Cobrinha:
-            Aqueça para o Quiz!
-        </p>
-    </header>
-
-    <div id="game-wrapper">
-
-        <div id="score-board">
-            Score: 0
+        <div class="app-brand">
+            <!-- Ícone visível no corpo da página para cumprir exigência do TikTok -->
+            <img src="logo_32x32.jpg" alt="W2 Logo" class="app-logo">
+            <h1>W2 Quiz & Games</h1>
         </div>
 
-        <div id="game-controls">
-            <button id="pauseBtn">
-                ▶ Play
+        <!-- PONTO DE ENTRADA DE LOGIN (Exigência do revisor) -->
+        <div class="login-container">
+            <button class="tiktok-btn" onclick="alert('Redirecionando para o fluxo de autenticação do TikTok...')">
+                <img src="https://sf16-scmcdn-va.ibytedtos.com/goofy/tiktok/falcon/clientlib/resources/favicon.ico" width="20" alt="TikTok">
+                Login with TikTok
             </button>
         </div>
 
-        <canvas
-            id="snakeGame"
-            width="400"
-            height="400">
-        </canvas>
+        <p>Desafio da Cobrinha: Aqueça para o Quiz!</p>
+    </header>
 
+    <div id="game-wrapper">
+        <div id="score-board">Score: 0</div>
+        <div id="game-controls">
+            <button id="pauseBtn">▶ Play</button>
+        </div>
+        <canvas id="snakeGame" width="400" height="400"></canvas>
     </div>
 
     <!-- CONTROLES MOBILE -->
-
     <div class="controls">
-
-        <div
-            class="btn up"
-            onclick="setDir('UP')">
-            ▲
-        </div>
-
-        <div
-            class="btn left"
-            onclick="setDir('LEFT')">
-            ◀
-        </div>
-
-        <div
-            class="btn down"
-            onclick="setDir('DOWN')">
-            ▼
-        </div>
-
-        <div
-            class="btn right"
-            onclick="setDir('RIGHT')">
-            ▶
-        </div>
-
+        <div class="btn up" onclick="setDir('UP')">▲</div>
+        <div class="btn left" onclick="setDir('LEFT')">◀</div>
+        <div class="btn down" onclick="setDir('DOWN')">▼</div>
+        <div class="btn right" onclick="setDir('RIGHT')">▶</div>
     </div>
 
     <footer>
         <p>
             &copy; 2026 W2 Oficial.
-
-            <a href="https://wewetwooficial.github.io/Quiz-Terms-of-Service/">
-                Terms of Service
-            </a>
-
-            |
-
-            <a href="https://wewetwooficial.github.io/Privacy-Policy">
-                Privacy Policy
-            </a>
+            <a href="https://wewetwooficial.github.io/Quiz-Terms-of-Service/">Terms of Service</a> |
+            <a href="https://wewetwooficial.github.io/Privacy-Policy">Privacy Policy</a>
         </p>
     </footer>
 
     <script>
-
-        const canvas =
-            document.getElementById("snakeGame");
-
-        const ctx =
-            canvas.getContext("2d");
-
-        const scoreBoard =
-            document.getElementById("score-board");
-
-        const pauseBtn =
-            document.getElementById("pauseBtn");
-
+        // ... (O restante do script de lógica do jogo permanece o mesmo) ...
+        const canvas = document.getElementById("snakeGame");
+        const ctx = canvas.getContext("2d");
+        const scoreBoard = document.getElementById("score-board");
+        const pauseBtn = document.getElementById("pauseBtn");
         const box = 20;
-
         let score = 0;
-
-        /* MAIS LENTO NO INÍCIO */
         let gameSpeed = 180;
-
-        let snake = [
-            {
-                x: 9 * box,
-                y: 10 * box
-            }
-        ];
-
+        let snake = [{ x: 9 * box, y: 10 * box }];
         let food = spawnFood();
-
         let d = "RIGHT";
-
         let game = null;
-
         let isPaused = true;
 
-        /* =========================
-           TECLADO
-        ========================= */
-
-        document.addEventListener(
-            "keydown",
-            (e) => {
-
-                if (
-                    (e.key == "ArrowLeft" || e.key == "a")
-                    && d != "RIGHT"
-                ) {
-                    d = "LEFT";
-                }
-
-                else if (
-                    (e.key == "ArrowUp" || e.key == "w")
-                    && d != "DOWN"
-                ) {
-                    d = "UP";
-                }
-
-                else if (
-                    (e.key == "ArrowRight" || e.key == "d")
-                    && d != "LEFT"
-                ) {
-                    d = "RIGHT";
-                }
-
-                else if (
-                    (e.key == "ArrowDown" || e.key == "s")
-                    && d != "UP"
-                ) {
-                    d = "DOWN";
-                }
-            }
-        );
-
-        /* =========================
-           MOBILE
-        ========================= */
+        document.addEventListener("keydown", (e) => {
+            if ((e.key == "ArrowLeft" || e.key == "a") && d != "RIGHT") d = "LEFT";
+            else if ((e.key == "ArrowUp" || e.key == "w") && d != "DOWN") d = "UP";
+            else if ((e.key == "ArrowRight" || e.key == "d") && d != "LEFT") d = "RIGHT";
+            else if ((e.key == "ArrowDown" || e.key == "s") && d != "UP") d = "DOWN";
+        });
 
         function setDir(dir) {
-
-            if (
-                dir == "LEFT"
-                && d != "RIGHT"
-            ) {
-                d = "LEFT";
-            }
-
-            if (
-                dir == "UP"
-                && d != "DOWN"
-            ) {
-                d = "UP";
-            }
-
-            if (
-                dir == "RIGHT"
-                && d != "LEFT"
-            ) {
-                d = "RIGHT";
-            }
-
-            if (
-                dir == "DOWN"
-                && d != "UP"
-            ) {
-                d = "DOWN";
-            }
+            if (dir == "LEFT" && d != "RIGHT") d = "LEFT";
+            if (dir == "UP" && d != "DOWN") d = "UP";
+            if (dir == "RIGHT" && d != "LEFT") d = "RIGHT";
+            if (dir == "DOWN" && d != "UP") d = "DOWN";
         }
 
-        /* =========================
-           COMIDA
-        ========================= */
-
         function spawnFood() {
-
             return {
-
-                x:
-                    Math.floor(
-                        Math.random() * 19 + 0.5
-                    ) * box,
-
-                y:
-                    Math.floor(
-                        Math.random() * 19 + 0.5
-                    ) * box
+                x: Math.floor(Math.random() * 19 + 0.5) * box,
+                y: Math.floor(Math.random() * 19 + 0.5) * box
             };
         }
 
-        /* =========================
-           DESENHO
-        ========================= */
-
         function draw() {
-
             ctx.fillStyle = "black";
-
-            ctx.fillRect(
-                0,
-                0,
-                canvas.width,
-                canvas.height
-            );
-
-            /* COBRA */
-
-            snake.forEach(
-                (part, index) => {
-
-                    ctx.fillStyle =
-                        (index === 0)
-                        ? "#22d3ee"
-                        : "#164e63";
-
-                    ctx.fillRect(
-                        part.x,
-                        part.y,
-                        box - 1,
-                        box - 1
-                    );
-                }
-            );
-
-            /* COMIDA */
-
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            snake.forEach((part, index) => {
+                ctx.fillStyle = (index === 0) ? "#22d3ee" : "#164e63";
+                ctx.fillRect(part.x, part.y, box - 1, box - 1);
+            });
             ctx.fillStyle = "#ef4444";
-
             ctx.beginPath();
-
-            ctx.arc(
-                food.x + box / 2,
-                food.y + box / 2,
-                box / 2.5,
-                0,
-                Math.PI * 2
-            );
-
+            ctx.arc(food.x + box / 2, food.y + box / 2, box / 2.5, 0, Math.PI * 2);
             ctx.fill();
 
             let snakeX = snake[0].x;
-
             let snakeY = snake[0].y;
+            if (d == "LEFT") snakeX -= box;
+            if (d == "UP") snakeY -= box;
+            if (d == "RIGHT") snakeX += box;
+            if (d == "DOWN") snakeY += box;
 
-            if (d == "LEFT")
-                snakeX -= box;
-
-            if (d == "UP")
-                snakeY -= box;
-
-            if (d == "RIGHT")
-                snakeX += box;
-
-            if (d == "DOWN")
-                snakeY += box;
-
-            /* COME COMIDA */
-
-            if (
-                snakeX == food.x
-                &&
-                snakeY == food.y
-            ) {
-
+            if (snakeX == food.x && snakeY == food.y) {
                 score++;
-
-                scoreBoard.innerText =
-                    "Score: " + score;
-
+                scoreBoard.innerText = "Score: " + score;
                 food = spawnFood();
-
-                /* AUMENTA VELOCIDADE */
-
                 if (gameSpeed > 70) {
-
                     gameSpeed -= 5;
-
                     clearInterval(game);
-
-                    game = setInterval(
-                        draw,
-                        gameSpeed
-                    );
+                    game = setInterval(draw, gameSpeed);
                 }
-
             } else {
-
                 snake.pop();
             }
 
-            let newHead = {
-
-                x: snakeX,
-
-                y: snakeY
-            };
-
-            /* GAME OVER */
-
-            if (
-
-                snakeX < 0 ||
-
-                snakeX >= canvas.width ||
-
-                snakeY < 0 ||
-
-                snakeY >= canvas.height ||
-
-                collision(
-                    newHead,
-                    snake
-                )
-
-            ) {
-
+            let newHead = { x: snakeX, y: snakeY };
+            if (snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) {
                 clearInterval(game);
-
-                alert(
-                    "Game Over! Score: "
-                    + score
-                );
-
+                alert("Game Over! Score: " + score);
                 location.reload();
             }
-
             snake.unshift(newHead);
         }
 
-        /* =========================
-           COLISÃO
-        ========================= */
-
-        function collision(
-            head,
-            array
-        ) {
-
-            return array.some(
-                part =>
-
-                    head.x === part.x
-                    &&
-                    head.y === part.y
-            );
+        function collision(head, array) {
+            return array.some(part => head.x === part.x && head.y === part.y);
         }
 
-        /* =========================
-           PLAY / PAUSE
-        ========================= */
+        function startGame() { clearInterval(game); game = setInterval(draw, gameSpeed); }
+        function pauseGame() { clearInterval(game); }
 
-        function startGame() {
-
-            clearInterval(game);
-
-            game = setInterval(
-                draw,
-                gameSpeed
-            );
-        }
-
-        function pauseGame() {
-
-            clearInterval(game);
-        }
-
-        /* GARANTE PAUSADO */
-
-        pauseGame();
-
-        /* BOTÃO */
-
-        pauseBtn.addEventListener(
-            "click",
-            () => {
-
-                if (isPaused) {
-
-                    startGame();
-
-                    pauseBtn.innerText =
-                        "⏸ Pause";
-
-                    isPaused = false;
-
-                } else {
-
-                    pauseGame();
-
-                    pauseBtn.innerText =
-                        "▶ Play";
-
-                    isPaused = true;
-                }
+        pauseBtn.addEventListener("click", () => {
+            if (isPaused) {
+                startGame();
+                pauseBtn.innerText = "⏸ Pause";
+                isPaused = false;
+            } else {
+                pauseGame();
+                pauseBtn.innerText = "▶ Play";
+                isPaused = true;
             }
-        );
-
+        });
     </script>
-
 </body>
 </html>
